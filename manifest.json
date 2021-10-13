@@ -1,0 +1,19 @@
+{
+  "name": "Improve NU Degree Audit UI",
+  "description": "Reads the contents of your Northeastern degree audit and displays them in a more clear and readable way.",
+  "version": "1.0",
+  "manifest_version": 3,
+
+  "permissions": [
+      "storage", "activeTab", "scripting"
+  ],
+  "action": {
+    "default_icon": {
+      "16": "red-mouse-click16.png",
+      "32": "red-mouse-click32.png",
+      "48": "red-mouse-click48.png",
+      "128": "red-mouse-click128.png"
+    },
+    "default_popup": "popup.html"
+  }
+}
