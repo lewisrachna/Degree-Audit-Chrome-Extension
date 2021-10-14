@@ -4,15 +4,30 @@
   "version": "1.0",
   "manifest_version": 3,
 
-  "permissions": [
-      "storage", "activeTab", "scripting"
+  "content_scripts": [
+    {
+     "matches": ["https://prod-web.neu.edu/wasapp/DARSStudent/ParseAuditServlet*"],
+     "js": ["audit/audit.js"],
+     "css": ["audit/audit-styles.css"]
+    },
+    {
+    "matches": ["https://prod-web.neu.edu/wasapp/DARSStudent/RequestAuditServlet*"],
+    "js": ["request-audit.js"],
+    "css": ["request-audit-styles.css"]
+    },
+    {
+    "matches": ["https://prod-web.neu.edu/wasapp/DARSStudent/ListAuditsServlet*"];
+    "js": ["list-audits.js"],
+    "css": ["list-audits-styles.css"]
+    }
   ],
+  "permissions": ["storage", "activeTab", "scripting"],
   "action": {
     "default_icon": {
-      "16": "red-mouse-click16.png",
-      "32": "red-mouse-click32.png",
-      "48": "red-mouse-click48.png",
-      "128": "red-mouse-click128.png"
+      "16": "images/red-mouse-click16.png",
+      "32": "images/red-mouse-click32.png",
+      "48": "images/red-mouse-click48.png",
+      "128": "images/red-mouse-click128.png"
     },
     "default_popup": "popup.html"
   }
