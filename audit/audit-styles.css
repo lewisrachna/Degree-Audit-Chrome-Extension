@@ -1,9 +1,23 @@
 body {
-  background-color: white;
+  background-color: black;
+  font-family: 'Lato', sans-serif !important;
+  color: white;
 }
-.auditText {
+.general-info {
+  background-color: white;
+  color: black;
+}
+p {
+  background-color: white;
+  color: black;
+}
+table {
+  background-color: white;
+  color: black;
+}
+/* .auditText {
   font-family: 'Lato', sans-serif !important;
 }
 .auditPreviewText {
   font-family: 'Lato', sans-serif !important;
-}
+} */
