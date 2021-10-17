@@ -18,23 +18,28 @@ var tables = body.getElementsByTagName('table');
 var words = body.getElementsByClassName("auditText");
 var buttons = body.getElementsByClassName("form");
 
+// table requirement name population
+//var inner2 = document.querySelector("body > table:nth-child(5) > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(1) > td > pre");
 var inner = tables[2].getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td')[0].getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr')[1].getElementsByTagName('td')[0].getElementsByTagName('pre')[0];
 var innerParagraphs = inner.getElementsByTagName('b');
 var innerLinks = inner.getElementsByTagName('a');
 const mainCourseRequirements = [];
-const mainCourseRequirementsCompletion = []; // NO, OK, or empty string
+const mainCourseRequirementsCompletion = []; // NO, OK, IP, or empty string
 const nuPaths = [];
 const nuPathsCompletion = [];
 const otherRequirements = [];
 const otherRequirementsCompletion = [];
 
 
+// table linked info population
 var linkedInfo = document.querySelector("body > table:nth-child(6) > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(2) > td > pre > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > pre");
-var requirementNamesAndInfo = linkedInfo.querySelectorAll('font,p');
+//var requirementNamesAndInfo = linkedInfo.querySelectorAll('font,p');
 var haveRequirementsBeenSatisfied = linkedInfo.getElementsByTagName('font')[0].innerHTML; //"AT LEAST ONE REQUIREMENT HAS NOT BEEN SATISFIED" OR all have been satisfied
 const mainCourseRequirementsInfo = [];
 const nuPathsInfo = [];
 const otherRequirementsInfo = [];
+
+console.log(linkedInfo);
 
 var paragraphNum = 5;
 var categoryNum = 0;
@@ -72,9 +77,6 @@ while(!(innerParagraphs[paragraphNum].innerHTML.includes("LEGEND"))) {
   }
   else if (innerParagraphs[paragraphNum].innerHTML.includes("RESIDENCY REQUIREMENT")) { //skip residency requirements description
     paragraphNum += 2;
-  }
-  else if (innerParagraphs[paragraphNum].innerHTML.includes("ADDITIONAL COURSE INFORMATION")) { //skip residency requirements description
-    break;
   }
   else {
     paragraphNum += 1;
@@ -144,6 +146,12 @@ var myPaws = document.createElement('h2');
 myPaws.innerHTML = "myPaws -- ".concat(myName.innerHTML.concat(" DEGREE AUDIT"));
 logoDiv.appendChild(myPaws);
 
+// maintain button functionality
+logoDiv.appendChild(tables[0]);
+
+var buttons = document.querySelector("body > table:nth-child(5) > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(1)");
+logoDiv.appendChild(buttons);
+
 // create content
 var content = document.createElement('section');
 content.setAttribute("id", "content");
@@ -173,106 +181,95 @@ completionInfoDiv.setAttribute("class", "completion-info");
 completionInfo.appendChild(completionInfoDiv);
 
 var mainCourseRequirementsHeader = document.createElement('h2');
-mainCourseRequirementsHeader.innerHTML = "Completion Status of Requirements";
+mainCourseRequirementsHeader.innerHTML = "Fulfillment Status of Requirements";
 completionInfoDiv.appendChild(mainCourseRequirementsHeader);
 
-var mainCourseRequirementsTable = document.createElement('table');
-completionInfoDiv.appendChild(mainCourseRequirementsTable);
+var mainCourseRequirementsCompletedTable = document.createElement('table');
+completionInfoDiv.appendChild(mainCourseRequirementsCompletedTable);
 
-var mainCourseRequirementsTableHead = document.createElement('thead');
-mainCourseRequirementsTable.appendChild(mainCourseRequirementsTableHead);
+completionInfoDiv.appendChild(document.createElement('br'));
 
-var mainCourseRequirementsTableBody = document.createElement('tbody');
-mainCourseRequirementsTable.appendChild(mainCourseRequirementsTableBody);
+var mainCourseRequirementsNotCompletedTable = document.createElement('table');
+completionInfoDiv.appendChild(mainCourseRequirementsNotCompletedTable);
 
 
-var completedVsNot = document.createElement('tr');
-var completedTitle = document.createElement('th');
-completedTitle.innerHTML = "Completed";
-var notCompletedTitle = document.createElement('th');
-notCompletedTitle.innerHTML = "Not Completed";
-completedVsNot.appendChild(completedTitle);
-completedVsNot.appendChild(notCompletedTitle);
-mainCourseRequirementsTableHead.appendChild(completedVsNot);
+var completedVsNot1 = document.createElement('tr');
+var completedTitle1 = document.createElement('th');
+completedTitle1.innerHTML = "Fulfilled";
+
+var completedVsNot2 = document.createElement('tr');
+var notCompletedTitle2 = document.createElement('th');
+notCompletedTitle2.innerHTML = "Not Fulfilled";
+
+completedVsNot1.appendChild(completedTitle1);
+completedVsNot2.appendChild(notCompletedTitle2);
+mainCourseRequirementsCompletedTable.appendChild(completedVsNot1);
+mainCourseRequirementsNotCompletedTable.appendChild(completedVsNot2);
 
 
 for (i = 0; i < mainCourseRequirements.length; i++) {
   var el = document.createElement('tr');
   var elInner = document.createElement('td');
-  var elBlank = document.createElement('td');
   elInner.innerHTML = mainCourseRequirements[i];
+  el.appendChild(elInner);
   if (mainCourseRequirementsCompletion[i].includes("OK")) {
-    el.appendChild(elInner);
-    el.appendChild(elBlank);
+    mainCourseRequirementsCompletedTable.appendChild(el);
   }
   else {
-    el.appendChild(elBlank);
-    el.appendChild(elInner);
+    mainCourseRequirementsNotCompletedTable.appendChild(el);
   }
-  mainCourseRequirementsTableBody.appendChild(el);
 }
 
 for (i = 0; i < otherRequirements.length; i++) {
   var el = document.createElement('tr');
   var elInner = document.createElement('td');
-  var elBlank = document.createElement('td');
   elInner.innerHTML = otherRequirements[i];
+  el.appendChild(elInner);
   if (otherRequirementsCompletion[i].includes("OK") || otherRequirementsCompletion[i].includes("IP")) {
-    el.appendChild(elInner);
-    el.appendChild(elBlank);
+    mainCourseRequirementsCompletedTable.appendChild(el);
   }
   else {
-    el.appendChild(elBlank);
-    el.appendChild(elInner);
+    mainCourseRequirementsNotCompletedTable.appendChild(el);
   }
-  mainCourseRequirementsTableBody.appendChild(el);
 }
 
 var nuPathRequirementsHeader = document.createElement('h2');
 nuPathRequirementsHeader.innerHTML = "Completion Status of NUPaths";
 completionInfoDiv.appendChild(nuPathRequirementsHeader);
 
-var nuPathsTable = document.createElement('table');
-completionInfoDiv.appendChild(nuPathsTable);
+var nuPathsCompletedTable = document.createElement('table');
+completionInfoDiv.appendChild(nuPathsCompletedTable);
 
-var nuPathsTableHead = document.createElement('thead');
-nuPathsTable.appendChild(nuPathsTableHead);
+completionInfoDiv.appendChild(document.createElement('br'));
 
-var nuPathsTableBody = document.createElement('tbody');
-nuPathsTable.appendChild(nuPathsTableBody);
+var nuPathsNotCompletedTable = document.createElement('table');
+completionInfoDiv.appendChild(nuPathsNotCompletedTable);
 
-
-var completedVsNot2 = document.createElement('tr');
+var completedVsNot3 = document.createElement('tr');
 var completedTitle2 = document.createElement('th');
 completedTitle2.innerHTML = "Completed";
+completedVsNot3.appendChild(completedTitle2);
+
+var completedVsNot4 = document.createElement('tr');
 var notCompletedTitle2 = document.createElement('th');
 notCompletedTitle2.innerHTML = "Not Completed";
-completedVsNot2.appendChild(completedTitle2);
-completedVsNot2.appendChild(notCompletedTitle2);
-nuPathsTableHead.appendChild(completedVsNot2);
+completedVsNot4.appendChild(notCompletedTitle2);
+
+nuPathsCompletedTable.appendChild(completedVsNot3);
+nuPathsNotCompletedTable.appendChild(completedVsNot4);
 
 for (i = 0; i < nuPaths.length; i++) {
   var el = document.createElement('tr');
   var elInner = document.createElement('td');
-  var elBlank = document.createElement('td');
   elInner.innerHTML = nuPaths[i];
+  el.appendChild(elInner);
   if (nuPathsCompletion[i].includes("OK")) {
-    el.appendChild(elInner);
-    el.appendChild(elBlank);
+    nuPathsCompletedTable.appendChild(el);
   }
   else {
-    el.appendChild(elBlank);
-    el.appendChild(elInner);
+    nuPathsNotCompletedTable.appendChild(el);
   }
-  nuPathsTableBody.appendChild(el);
 }
-
-console.log(mainCourseRequirements);
-console.log(mainCourseRequirementsCompletion);
-console.log(nuPaths);
-console.log(nuPathsCompletion);
-console.log(otherRequirements);
-console.log(otherRequirementsCompletion);
 
 // at the very end, overwrite the body with our new body
 body.remove();
