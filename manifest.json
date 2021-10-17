@@ -12,13 +12,13 @@
     },
     {
     "matches": ["https://prod-web.neu.edu/wasapp/DARSStudent/RequestAuditServlet*"],
-    "js": ["request-audit.js"],
-    "css": ["request-audit-styles.css"]
+    "js": ["request-audit/request-audit.js"],
+    "css": ["request-audit/request-audit-styles.css"]
     },
     {
-    "matches": ["https://prod-web.neu.edu/wasapp/DARSStudent/ListAuditsServlet*"];
-    "js": ["list-audits.js"],
-    "css": ["list-audits-styles.css"]
+    "matches": ["https://prod-web.neu.edu/wasapp/DARSStudent/ListAuditsServlet*"],
+    "js": ["list-audits/list-audits.js"],
+    "css": ["list-audits/list-audits-styles.css"]
     }
   ],
   "permissions": ["storage", "activeTab", "scripting"],

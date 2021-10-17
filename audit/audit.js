@@ -1,21 +1,27 @@
-console.log("HI Rachna!!");
+console.log("Welcome to your new degree audit!!");
 
-const paragraphs = document.getElementsByTagName('b');
-const tables = document.getElementsByTagName('table');
-const words = document.getElementsByClassName("auditText");
+// define all variables
+var body = document.getElementsByTagName('body')[0];
+var head = document.getElementsByTagName('head')[0];
 
-var preparedDateAndNUID = paragraphs[4];
-var nameAndGraduationDate = paragraphs[5];
-var programCodeAndCatalogYear = paragraphs[6];
-var degreeTitle = paragraphs[7];
-var majorTitle = paragraphs[8];
+// create a new body to add components to
+var newBody = document.createElement('body');
+body.remove();
+head.after(newBody);
 
-// make top table the length of the screen (modify buttons later)
-tables[0].style.width = "100%";
+var paragraphs = body.getElementsByTagName('b');
+var textBlocks = body.getElementsByTagName('font');
+var tables = body.getElementsByTagName('table');
+var words = body.getElementsByClassName("auditText");
 
-// remove
-const i = 0;
-while (i < 5) {
-  paragraphs[4].remove();
-  i++;
-}
+// get the page headers
+var preparedDateAndNUID = textBlocks[1].textContent;
+var nameAndGraduationDate = textBlocks[2].textContent;
+var programCodeAndCatalogYear = textBlocks[3].textContent;
+var degreeTitle = textBlocks[4].textContent;
+var majorTitle = textBlocks[5].textContent;
+
+// attempt to add something to the new body
+var div1 = document.createElement('h1')
+div1.innerHTML = "THIS IS THE NEW PAGE";
+newBody.appendChild(div1);
