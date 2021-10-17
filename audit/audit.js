@@ -46,7 +46,6 @@ while(!(innerParagraphs[paragraphNum].innerHTML.includes("NUpath"))) {
   categoryNum += 1;
   paragraphNum += 1;
 }
-//console.log(mainCourseRequirements);
 
 paragraphNum = paragraphNum + 7; // skip over NUpath description
 var pathNum = 0;
@@ -60,7 +59,6 @@ while (!(toEight === 8)) {
   paragraphNum += 1;
   pathNum += 1;
 }
-//console.log(nuPaths);
 
 var otherCategoryNum = 0;
 while(!(innerParagraphs[paragraphNum].innerHTML.includes("LEGEND"))) {
@@ -75,11 +73,13 @@ while(!(innerParagraphs[paragraphNum].innerHTML.includes("LEGEND"))) {
   else if (innerParagraphs[paragraphNum].innerHTML.includes("RESIDENCY REQUIREMENT")) { //skip residency requirements description
     paragraphNum += 2;
   }
+  else if (innerParagraphs[paragraphNum].innerHTML.includes("ADDITIONAL COURSE INFORMATION")) { //skip residency requirements description
+    break;
+  }
   else {
     paragraphNum += 1;
   }
 }
-//console.log(otherRequirements);
 
 // var k = 0;
 // for (i = 0; i < mainCourseRequirements.length; i ++) {
@@ -141,7 +141,7 @@ nuLogo.setAttribute("src", "https://mynortheastern-icons-portal.s3.amazonaws.com
 logoDiv.appendChild(nuLogo);
 
 var myPaws = document.createElement('h2');
-myPaws.innerHTML = "myPaws -- Degree Audit";
+myPaws.innerHTML = "myPaws -- ".concat(myName.innerHTML.concat(" DEGREE AUDIT"));
 logoDiv.appendChild(myPaws);
 
 // create content
@@ -155,7 +155,7 @@ wrapper.appendChild(generalInfo);
 
 var generalInfoDiv = document.createElement('div');
 generalInfoDiv.setAttribute("class", "general-info");
-generalInfoDiv.appendChild(myName);
+//generalInfoDiv.appendChild(myName);
 generalInfoDiv.appendChild(gradDate);
 generalInfoDiv.appendChild(degreeTitle);
 generalInfoDiv.appendChild(majorTitle);
@@ -216,7 +216,7 @@ for (i = 0; i < otherRequirements.length; i++) {
   var el = document.createElement('tr');
   var elInner = document.createElement('td');
   var elBlank = document.createElement('td');
-  elInner.innerHTML = mainCourseRequirements[i];
+  elInner.innerHTML = otherRequirements[i];
   if (otherRequirementsCompletion[i].includes("OK") || otherRequirementsCompletion[i].includes("IP")) {
     el.appendChild(elInner);
     el.appendChild(elBlank);
@@ -267,6 +267,12 @@ for (i = 0; i < nuPaths.length; i++) {
   nuPathsTableBody.appendChild(el);
 }
 
+console.log(mainCourseRequirements);
+console.log(mainCourseRequirementsCompletion);
+console.log(nuPaths);
+console.log(nuPathsCompletion);
+console.log(otherRequirements);
+console.log(otherRequirementsCompletion);
 
 // at the very end, overwrite the body with our new body
 body.remove();
