@@ -10,6 +10,7 @@ var head = document.getElementsByTagName('head')[0];
 
 // create a new body to add elements to
 var newBody = document.createElement('body');
+var aBreak = document.createElement('br');
 
 // define the necessary variables
 var textBlocks = body.getElementsByTagName('font');
@@ -21,10 +22,15 @@ var inner = tables[2].getElementsByTagName('tbody')[0].getElementsByTagName('tr'
 var innerParagraphs = inner.getElementsByTagName('b');
 var innerLinks = inner.getElementsByTagName('a');
 const mainCourseRequirements = [];
+const mainCourseRequirementsCompletion = []; // NO, OK, or empty string
 const nuPaths = [];
+const nuPathsCompletion = [];
 const otherRequirements = [];
+const otherRequirementsCompletion = [];
+
 
 var linkedInfo = document.querySelector("body > table:nth-child(6) > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(2) > td > pre > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > spacer > font > pre");
+var requirementNamesAndInfo = linkedInfo.querySelectorAll('font,p');
 var haveRequirementsBeenSatisfied = linkedInfo.getElementsByTagName('font')[0].innerHTML; //"AT LEAST ONE REQUIREMENT HAS NOT BEEN SATISFIED" OR all have been satisfied
 const mainCourseRequirementsInfo = [];
 const nuPathsInfo = [];
@@ -33,7 +39,10 @@ const otherRequirementsInfo = [];
 var paragraphNum = 5;
 var categoryNum = 0;
 while(!(innerParagraphs[paragraphNum].innerHTML.includes("NUpath"))) {
-  mainCourseRequirements[categoryNum] = innerParagraphs[paragraphNum].innerHTML;
+  var str = innerParagraphs[paragraphNum].innerHTML;
+  var completion = str.substring(0,3);
+  mainCourseRequirements[categoryNum] = str.substring(4);
+  mainCourseRequirementsCompletion[categoryNum] = completion;
   categoryNum += 1;
   paragraphNum += 1;
 }
@@ -43,7 +52,10 @@ paragraphNum = paragraphNum + 7; // skip over NUpath description
 var pathNum = 0;
 toEight = 0;
 while (!(toEight === 8)) {
-  nuPaths[pathNum] = innerParagraphs[paragraphNum].innerHTML;
+  var str = innerParagraphs[paragraphNum].innerHTML;
+  var completion = str.substring(0,3);
+  nuPaths[pathNum] = str.substring(4);
+  nuPathsCompletion[pathNum] = completion;
   toEight += 1;
   paragraphNum += 1;
   pathNum += 1;
@@ -52,7 +64,10 @@ while (!(toEight === 8)) {
 
 var otherCategoryNum = 0;
 while(!(innerParagraphs[paragraphNum].innerHTML.includes("LEGEND"))) {
-  otherRequirements[otherCategoryNum] = innerParagraphs[paragraphNum].innerHTML;
+  var str = innerParagraphs[paragraphNum].innerHTML;
+  var completion = str.substring(0,3);
+  otherRequirements[otherCategoryNum] = str.substring(4);
+  otherRequirementsCompletion[otherCategoryNum] = completion;
   otherCategoryNum += 1;
   if (innerParagraphs[paragraphNum].innerHTML.includes("HONORS COURSES")) { //skip honors courses description
     paragraphNum += 8;
@@ -65,6 +80,20 @@ while(!(innerParagraphs[paragraphNum].innerHTML.includes("LEGEND"))) {
   }
 }
 //console.log(otherRequirements);
+
+// var k = 0;
+// for (i = 0; i < mainCourseRequirements.length; i ++) {
+//   currElement = requirementNamesAndInfo[k];
+//   if (!(currElement.tagName === 'P')) {
+//     if (mainCourseRequirements.includes(.innerHTML))
+//     while(!(mainCourseRequirements.includes(.innerHTML))) {
+//
+//     }
+//   }
+//   else {
+//
+//   }
+// }
 
 
 // get the general info
@@ -112,7 +141,7 @@ nuLogo.setAttribute("src", "https://mynortheastern-icons-portal.s3.amazonaws.com
 logoDiv.appendChild(nuLogo);
 
 var myPaws = document.createElement('h2');
-myPaws.innerHTML = "myPaws";
+myPaws.innerHTML = "myPaws -- Degree Audit";
 logoDiv.appendChild(myPaws);
 
 // create content
@@ -143,17 +172,102 @@ var completionInfoDiv = document.createElement('div');
 completionInfoDiv.setAttribute("class", "completion-info");
 completionInfo.appendChild(completionInfoDiv);
 
+var mainCourseRequirementsHeader = document.createElement('h2');
+mainCourseRequirementsHeader.innerHTML = "Completion Status of Requirements";
+completionInfoDiv.appendChild(mainCourseRequirementsHeader);
+
 var mainCourseRequirementsTable = document.createElement('table');
 completionInfoDiv.appendChild(mainCourseRequirementsTable);
+
+var mainCourseRequirementsTableHead = document.createElement('thead');
+mainCourseRequirementsTable.appendChild(mainCourseRequirementsTableHead);
+
+var mainCourseRequirementsTableBody = document.createElement('tbody');
+mainCourseRequirementsTable.appendChild(mainCourseRequirementsTableBody);
+
+
+var completedVsNot = document.createElement('tr');
+var completedTitle = document.createElement('th');
+completedTitle.innerHTML = "Completed";
+var notCompletedTitle = document.createElement('th');
+notCompletedTitle.innerHTML = "Not Completed";
+completedVsNot.appendChild(completedTitle);
+completedVsNot.appendChild(notCompletedTitle);
+mainCourseRequirementsTableHead.appendChild(completedVsNot);
+
+
+for (i = 0; i < mainCourseRequirements.length; i++) {
+  var el = document.createElement('tr');
+  var elInner = document.createElement('td');
+  var elBlank = document.createElement('td');
+  elInner.innerHTML = mainCourseRequirements[i];
+  if (mainCourseRequirementsCompletion[i].includes("OK")) {
+    el.appendChild(elInner);
+    el.appendChild(elBlank);
+  }
+  else {
+    el.appendChild(elBlank);
+    el.appendChild(elInner);
+  }
+  mainCourseRequirementsTableBody.appendChild(el);
+}
+
+for (i = 0; i < otherRequirements.length; i++) {
+  var el = document.createElement('tr');
+  var elInner = document.createElement('td');
+  var elBlank = document.createElement('td');
+  elInner.innerHTML = mainCourseRequirements[i];
+  if (otherRequirementsCompletion[i].includes("OK") || otherRequirementsCompletion[i].includes("IP")) {
+    el.appendChild(elInner);
+    el.appendChild(elBlank);
+  }
+  else {
+    el.appendChild(elBlank);
+    el.appendChild(elInner);
+  }
+  mainCourseRequirementsTableBody.appendChild(el);
+}
+
+var nuPathRequirementsHeader = document.createElement('h2');
+nuPathRequirementsHeader.innerHTML = "Completion Status of NUPaths";
+completionInfoDiv.appendChild(nuPathRequirementsHeader);
 
 var nuPathsTable = document.createElement('table');
 completionInfoDiv.appendChild(nuPathsTable);
 
-var otherRequirementsTable = document.createElement('table');
-completionInfoDiv.appendChild(otherRequirementsTable);
+var nuPathsTableHead = document.createElement('thead');
+nuPathsTable.appendChild(nuPathsTableHead);
 
+var nuPathsTableBody = document.createElement('tbody');
+nuPathsTable.appendChild(nuPathsTableBody);
+
+
+var completedVsNot2 = document.createElement('tr');
+var completedTitle2 = document.createElement('th');
+completedTitle2.innerHTML = "Completed";
+var notCompletedTitle2 = document.createElement('th');
+notCompletedTitle2.innerHTML = "Not Completed";
+completedVsNot2.appendChild(completedTitle2);
+completedVsNot2.appendChild(notCompletedTitle2);
+nuPathsTableHead.appendChild(completedVsNot2);
+
+for (i = 0; i < nuPaths.length; i++) {
+  var el = document.createElement('tr');
+  var elInner = document.createElement('td');
+  var elBlank = document.createElement('td');
+  elInner.innerHTML = nuPaths[i];
+  if (nuPathsCompletion[i].includes("OK")) {
+    el.appendChild(elInner);
+    el.appendChild(elBlank);
+  }
+  else {
+    el.appendChild(elBlank);
+    el.appendChild(elInner);
+  }
+  nuPathsTableBody.appendChild(el);
+}
 
 
 // at the very end, overwrite the body with our new body
-// body.remove();
-// head.after(newBody);
+body.remove();
+head.after(newBody);
